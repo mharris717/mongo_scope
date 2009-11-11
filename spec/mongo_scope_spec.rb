@@ -1,5 +1,18 @@
 require 'spec_helper'
 
+class Object
+  def to_sym_keys
+    h = {}
+    each { |k,v| h[k.to_sym] = v }
+    h
+  end
+  def to_subset(h)
+    h = h.to_sym_keys
+    keys.each { |k| delete(k) unless h.keys.include?(k) }
+    self
+  end
+end
+
 describe "MongoScope" do
   before(:all) do
     @connection = Mongo::Connection.new(ENV['MONGO_RUBY_DRIVER_HOST'] || 'localhost', ENV['MONGO_RUBY_DRIVER_PORT'] || Mongo::Connection::DEFAULT_PORT)
@@ -37,4 +50,19 @@ describe "MongoScope" do
     scope = MongoScope::Scope.new(:op => '$in', :field => :first_name, :val => ['Mike','Dave'])
     scope.find_ops.should == {:first_name => {'$in' => ['Mike','Dave']}}
   end
+  it 'scoped find_one' do
+    @coll.find_one(:age => 27)['first_name'].should == 'Mike'
+    @coll.scope_eq(:first_name => /^L/).find_one(:age => 27)['first_name'].should == 'Lou'
+  end
+  it 'scoped find_one with id' do
+    mike_id = @coll.find_one(:first_name => 'Mike')['_id']
+    lou_id = @coll.find_one(:first_name => 'Lou')['_id']
+    @coll.find_one(mike_id)['first_name'].should == 'Mike'
+    @coll.scope_eq(:first_name => /^L/).find_one(lou_id)['first_name'].should == 'Lou'
+    @coll.scope_eq(:first_name => 'Mike').find_one(lou_id).should_not be
+  end
+  it 'should save' do
+    @coll.scope_eq(:first_name => 'Mike').save(:abc => 42)
+  end
+  
 end

@@ -32,10 +32,17 @@ module MongoScope
       self.coll = coll
     end
     def scoped_ops(ops)
+      ops = {'_id' => ops} unless ops.kind_of?(Hash)
       ops.merge(scope_obj.find_ops)
     end
     def find(selector={},options={})
       coll.find(scoped_ops(selector),options)
+    end
+    def find_one(selector={},options={})
+      coll.find_one(scoped_ops(selector),options)
+    end
+    def method_missing(sym,*args,&b)
+      coll.send(sym,*args,&b)
     end
   end
 
