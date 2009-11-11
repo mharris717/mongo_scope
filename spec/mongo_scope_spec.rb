@@ -26,7 +26,7 @@ describe "MongoScope" do
     @coll.save({:first_name => 'Lou', :age => 27})
   end
   it 'scope method' do
-    @coll.scope(:op => '$in', :field => :first_name, :val => ['Mike','Dave']).find.count.should == 1
+    @coll.raw_scope(:op => '$in', :field => :first_name, :val => ['Mike','Dave']).find.count.should == 1
   end
   it 'helper method - in' do
     @coll.scope_in(:first_name => ['Mike','Dave']).find.count.should == 1

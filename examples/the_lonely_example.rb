@@ -24,4 +24,4 @@ puts coll.scope_gt(:age => 27).find.count # 1
 puts coll.scope_eq(:first_name => /^L/).scope_eq(:age => 27).find.count # 1
 
 # the raw scope method (this is wrapped by the helper methods)
-puts coll.scope(:op => '$in', :field => :first_name, :val => ['Mike','Lowell']).find.count # 2
+puts coll.raw_scope(:op => '$in', :field => :first_name, :val => ['Mike','Lowell']).find.count # 2

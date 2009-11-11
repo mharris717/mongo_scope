@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__),'mongo_scope','util')
 
 module MongoScope
   module ScopeMethods
-    def scope(ops)
+    def raw_scope(ops)
       ScopedCollection.new(ops,self)
     end
     def scope_eq(ops)
@@ -12,7 +12,7 @@ module MongoScope
     end
     %w(in nin gt lt gte lte ne mod all size exists).each do |op|
       define_method("scope_#{op}") do |ops|
-        scope(:op => "$#{op}", :field => ops.keys.first, :val => ops.values.first)
+        raw_scope(:op => "$#{op}", :field => ops.keys.first, :val => ops.values.first)
       end
     end
   end
