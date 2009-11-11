@@ -10,7 +10,7 @@ module MongoScope
       scope_ops = {:field => ops.keys.first, :val => ops.values.first}
       ScopedCollection.new(EqScope.new(scope_ops),self)
     end
-    %w(in gt lt nin).each do |op|
+    %w(in nin gt lt gte lte ne mod all size exists).each do |op|
       define_method("scope_#{op}") do |ops|
         scope(:op => "$#{op}", :field => ops.keys.first, :val => ops.values.first)
       end
@@ -34,10 +34,9 @@ module MongoScope
     def scoped_ops(ops)
       ops.merge(scope_obj.find_ops)
     end
-    def find(ops={})
-      coll.find(scoped_ops(ops))
+    def find(selector={},options={})
+      coll.find(scoped_ops(selector),options)
     end
-
   end
 
   class Scope
