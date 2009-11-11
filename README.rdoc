@@ -1,6 +1,6 @@
 = mongo_scope
 
-Description goes here.
+Hacking on some scope methods for MongoDB in Ruby.  Inspired by Searchlogic.  
 
 == Copyright
 
