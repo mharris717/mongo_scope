@@ -1,4 +1,4 @@
-= mongo_scope
+= MongoScope
 
 Hacking on some scope methods for MongoDB in Ruby.  Inspired by Searchlogic.  
 
