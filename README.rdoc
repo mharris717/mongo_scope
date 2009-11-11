@@ -1,0 +1,7 @@
+= mongo_scope
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Mike Harris. See LICENSE for details.
