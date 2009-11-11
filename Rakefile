@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "mongo_scope"
-    gem.summary = %Q{TODO}
+    gem.summary = "Adds scope methods to Mongo::Collection.  Inspired by Searchlogic."
     gem.email = "mharris717@gmail.com"
     gem.homepage = "http://github.com/mharris717/mongo_scope"
     gem.authors = ["Mike Harris"]
@@ -38,3 +38,6 @@ end
 
 
 task :default => :spec
+
+Jeweler::GemcutterTasks.new
+
