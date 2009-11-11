@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'fattr'
 require File.join(File.dirname(__FILE__),'mongo_scope','util')
 
 module MongoScope
@@ -11,7 +10,7 @@ module MongoScope
       scope_ops = {:field => ops.keys.first, :val => ops.values.first}
       ScopedCollection.new(EqScope.new(scope_ops),self)
     end
-    %w(in gt nin).each do |op|
+    %w(in gt lt nin).each do |op|
       define_method("scope_#{op}") do |ops|
         scope(:op => "$#{op}", :field => ops.keys.first, :val => ops.values.first)
       end
