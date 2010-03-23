@@ -17,7 +17,7 @@ describe "MongoScope" do
   before(:all) do
     @connection = Mongo::Connection.new(ENV['MONGO_RUBY_DRIVER_HOST'] || 'localhost', ENV['MONGO_RUBY_DRIVER_PORT'] || Mongo::Connection::DEFAULT_PORT)
     @db   = @connection.db('ruby-mongo-test')
-    @coll = @db.collection("test")
+    @coll = @db.collection("test").to_scoped
   end
   before(:each) do
     @coll.remove
@@ -64,5 +64,19 @@ describe "MongoScope" do
   it 'should save' do
     @coll.scope_eq(:first_name => 'Mike').save(:abc => 42)
   end
+  it 'scoped remove' do
+    @coll.scope_eq(:first_name => 'Mike').remove
+    @coll.count.should == 2
+  end
+  it 'scoped group' do
+    @coll.remove
+    # @coll.save('a' => 'a', 'b' => 1)
+    # @coll.save("a" => 'a', 'b' => 3)
+    # @coll.save('a' => 'b', 'b' => 2)
+    # 
+    # @coll.sum_by(:key => 'a', :sum_field => 'b').should == {'a' => 4, 'b' => 2}
+  end
   
 end
+
+
